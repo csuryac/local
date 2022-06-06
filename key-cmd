@@ -1,0 +1,116 @@
+
+cat rk_qa_kafka_cle_wsgc_com.cer wsgc-CAISAC-VPWN-CA-corp.cer WSIRootCA.cer > cert-chain.txt
+
+
+openssl pkcs12 -export -inkey rk_qa_kafka_cle_wsgc_com.key -in cert-chain.txt -out cert-chain.pkcs12
+
+
+/usr/bin/keytool -importkeystore -srckeystore cert-chain.pkcs12 -srcstoretype PKCS12 -destkeystore kafka_cle_dev.jks -srcstorepass importkey -deststorepass importkey
+
+keytool -list -v -keystore kafka_cle_dev.jks
+
+
+cat tibco_nonprod_wsgc_com.csr.cer wsgc-CAISAC-VPWN-CA-corp.cer WSIRootCA.cer > cert-chain1.txt
+
+openssl pkcs12 -export -inkey tibco_nonprod_wsgc_com.key -in cert-chain1.txt -out cert-chain12.pkcs12
+
+usr/bin/keytool -importkeystore -srckeystore cert-chain1.pkcs12 -srcstoretype PKCS12 -destkeystore tibco_nonprod_wsgc_com.jks -srcstorepass importkey -deststorepass importkey
+
+
+cat tibprfepsservice_wsgc_com.csr.cer wsgc-CAISAC-VPWN-CA-corp.cer WSIRootCA.cer > tibprfepsservice_wsgc_com.crt
+openssl pkcs12 -export -inkey tibprfepsservice_wsgc_com.key -in tibprfepsservice_wsgc_com.crt -out tibprfepsservice_wsgc_com.p12
+keytool -importkeystore -srckeystore tibprfepsservice_wsgc_com.p12 -srcstoretype PKCS12 -destkeystore tibprfepsservice_wsgc_com.jks
+
+ /app/tibco/tib_install_base/tibsw/2018/tibcojre64/1.8.0/bin/keytool -list -v -keystore kafka_cle_dev.jks
+openssl s_client -connect tibintdevmp7p:19092 
+
+
+cat opscenter-cassandra-nonprod.wsgc.com.cer wsgc-CAISAC-VPWN-CA-corp.cer WSIRootCA.cer > cert-chain-ops1.txt
+
+
+openssl pkcs12 -in cert-chain-ops1.pkcs12  -out opscenter-cassandra-nonprod.wsgc.com.pem -nodes -clcerts
+
+openssl pkcs12 -export -out  /Users/myname/fullchain.pfx -inkey /Users/myname/privkey.pem -in /Users/myname/fullchain.pem
+
+openssl rsa -in server.key -out server.key
+
+usr/bin/keytool -importkeystore -srckeystore cert-chain-ops1.pkcs12 -srcstoretype PKCS12 -destkeystore opscenter-cassandra-nonprod_wsgc_com.jks -srcstorepass importkey -deststorepass importkey
+
+
+
+cat tibprfepsservicewsgccom.cer wsgc-CAISAC-VPWN-CA-corp.cer WSIRootCA.cer > cert-chain-tibco.txt
+
+openssl pkcs12 -export -inkey tibprfepsservice_wsgc_com.key -in cert-chain-tibco.txt -out cert-chain-tibco.pkcs12
+
+keytool -importkeystore -srckeystore cert-chain-tibco.pkcs12 -srcstoretype PKCS12 -destkeystore tibprfepsservice_wsgc_com.jks -srcstorepass importkey -deststorepass importkey
+
+
+cat apiqatykwsgccom.cer wsgc-CAISAC-VPWN-CA-corp.cer WSIRootCA.cer > cert-chain-api.txt
+
+openssl pkcs12 -export -inkey api_qa_tyk_wsgc_com.key -in cert-chain-api.txt -out cert-chain.pkcs12
+
+keytool -importkeystore -srckeystore cert-chain.pkcs12 -srcstoretype PKCS12 -destkeystore api_qa_tyk_wsgc_com.jks -srcstorepass importkey -deststorepass importkey
+
+
+cat kafkalms-nonprodwsgccom.cer wsgc-CAISAC-VPWN-CA-corp.cer WSIRootCA.cer > cert-chain-lms.txt
+
+openssl pkcs12 -export -inkey kafka.lms-nonprod.wsgc.com.key -in cert-chain-lms.txt -out cert-chain-lms.pkcs12
+
+keytool -importkeystore -srckeystore cert-chain-lms.pkcs12 -srcstoretype PKCS12 -destkeystore kafka_lms_dev.jks -srcstorepass importkey -deststorepass importkey
+
+cat kafkanonprodwsgccom.cer wsgc-CAISAC-VPWN-CA-corp.cer WSIRootCA.cer > cert-chain-kakfa.txt
+openssl pkcs12 -export -inkey kafka.nonprod.wsgc.com.key -in -chain-kakfa.txt -out cert-chain-lms1.pkcs12
+
+keytool -importkeystore -srckeystore cert-chain-lms1.pkcs12 -srcstoretype PKCS12 -destkeystore kafka_nonprod1.jks -srcstorepass changeitKafk@ -deststorepass changeitKafk@
+
+
+cat supplychain-sonarqubewsgccom.cer wsgc-CAISAC-VPWN-CA-corp.cer WSIRootCA.cer > cert-chain-sonar.txt
+
+openssl pkcs12 -export -inkey supplychain-sonarqube_wsgc_com.key -in cert-chain-sonar.txt -out cert-chain-sonar.pkcs12
+
+keytool -importkeystore -srckeystore cert-chain-sonar.pkcs12 -srcstoretype PKCS12 -destkeystore supplychain-sonarqube.wsgc.com.jks -srcstorepass importkey -deststorepass importkey
+
+openssl x509 -inform der -in supplychain-sonarqubewsgccom.cer -out supplychain-sonarqube.wsgc.com.pem
+
+openssl pkcs12 -in cert-chain-sonar.pkcs12 -out newfile.crt.pem -clcerts -nokeys
+openssl pkcs12 -in cert-chain-sonar.pkcs12 -out newfile.key.pem -nocerts -nodes
+
+openssl genrsa -out kafka.lms-nonprod.wsgc.com.key 2048
+openssl req -new -key kafka.lms-nonprod.wsgc.com.key -out kafka.lms-nonprod.wsgc.com.csr -config opnssl1.cnf -subj "/C=US/ST=CA/L=SF/O=WSI/OU=kafka.lms-nonprod.wsgc.com/CN=kafka.lms-nonprod.wsgc.com"
+
+openssl genrsa -out kafka.int.wsgc.com.key 2048
+openssl req -new -key kafka.int.wsgc.com.key -out kafka.int.wsgc.com.csr -config openssl.cnf -subj "/C=US/ST=CA/L=SF/O=WSI/OU=kafka.int.wsgc.com/CN=kafka.int.wsgc.com"
+
+
+openssl genrsa -out kafka.nonprod.wsgc.com.key 2048
+openssl req -new -key kafka.nonprod.wsgc.com.key -out kafka.nonprod.wsgc.com.csr -config opnssl.cnf -subj "/C=US/ST=CA/L=SF/O=WSI/OU=kafka.nonprod.wsgc.com/CN=kafka.nonprod.wsgc.com"
+
+openssl genrsa -out confluent.kafka.wsgc.com.key 4096
+
+openssl req -new -key confluent.kafka.wsgc.com.key -out confluent.kafka.wsgc.com.csr -config openssl.cnf -subj "/C=US/ST=CA/L=SF/O=WSI/OU=confluent.kafka.wsgc.com/CN=confluent.kafka.wsgc.com"
+
+openssl genrsa -out tibco.nonprod.wsgc.com.key 4096
+
+openssl req -new -key tibco.nonprod.wsgc.com.key -out tibco.nonprod.wsgc.com.csr -config tibco.cnf -subj "/C=US/ST=CA/L=SF/O=WSI/OU=tibco.nonprod.wsgc.com/CN=tibco.nonprod.wsgc.com"
+
+cat tibcononprodwsgccom.cer wsgc-CAISAC-VPWN-CA-corp.cer WSIRootCA.cer > cert-chain-tibco.txt
+
+openssl pkcs12 -export -inkey tibco.nonprod.wsgc.com.key -in cert-chain-tibco.txt -out cert-chain-tibco.pkcs12
+
+keytool -importkeystore -srckeystore cert-chain-tibco.pkcs12 -srcstoretype PKCS12 -destkeystore tibco.nonprod.wsgc.com.jks -srcstorepass importkey -deststorepass importkey
+
+cat confluent.kafka.wsgc.com.cer wsgc-CAISAC-VPWN-CA-corp.cer WSIRootCA.cer > cert-chain-kafka.txt
+
+openssl pkcs12 -export -inkey confluent.kafka.wsgc.com.key -in cert-chain-kafka.txt -out cert-chain-kafka.pkcs12
+openssl pkcs12 -in cert-chain-kafka.pkcs12 -out server.pem -clcerts -nokeys
+openssl pkcs12 -in cert-chain-kafka.pkcs12 -out server.key.pem -nocerts -nodes
+
+changeitKafk@
+
+openssl genrsa -out middleware.nonprod.kafka.wsgc.com.key 4096
+
+openssl req -new -key middleware.nonprod.kafka.wsgc.com.key -out middleware.nonprod.kafka.wsgc.com.csr -config openssl_int.cnf -subj "/C=US/ST=CA/L=SF/O=WSI/OU=middleware.nonprod.kafka.wsgc.com/CN=middleware.nonprod.kafka.wsgc.com"
+
+cat middlewarenonprodkafkawsgccom.cer wsgc-CAISAC-VPWN-CA-corp.cer WSIRootCA.cer > cert-chain-middle.txt
+openssl pkcs12 -export -inkey middleware.nonprod.kafka.wsgc.com.key -in cert-chain-middle.txt -out cert-chain-kafka-mid.pkcs12
+keytool -importkeystore -srckeystore cert-chain-kafka-mid.pkcs12 -srcstoretype PKCS12 -destkeystore kafka.middleware.nonprod.wsgc.com.jks -srcstorepass changeitKafk@ -deststorepass changeitKafk@

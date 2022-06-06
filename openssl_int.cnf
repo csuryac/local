@@ -1,0 +1,39 @@
+[ req ]
+default_bits       = 4096
+default_md         = sha256
+prompt             = no
+req_extensions     = req_ext 
+distinguished_name = dn
+
+[dn]
+C=US
+ST=CA
+L=SF
+O=WSI
+OU=middleware.nonprod.kafka.wsgc.com
+CN=middleware.nonprod.kafka.wsgc.com
+emailAddress=supplychainnonprodsupport@wsgc.com
+
+[ req_ext ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+IP.1 = 10.7.8.123
+IP.2 = 10.7.8.122
+IP.3 = 10.7.8.121
+IP.4 = 10.7.8.136
+IP.5 = 10.7.8.130
+IP.6 = 10.7.8.129
+IP.7 = 10.7.8.134
+IP.8 = 10.7.8.131
+IP.9 = 10.7.8.135
+IP.10 = 10.7.8.127
+IP.11 = 10.7.8.132
+IP.12 = 10.7.8.128
+IP.13 = 10.7.8.133
+IP.14 = 10.7.8.125
+IP.15 = 10.7.8.137
+DNS.16 = rk.nonprod.kafka.int.wsgc.com
+DNS.17 = rk.nonprod.kafka.str.wsgc.com
+DNS.18 = middleware.nonprod.kafka.wsgc.com
+
