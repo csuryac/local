@@ -1,0 +1,40 @@
+pipeline {
+    agent { label 'jnkrck-vdcn016' }
+    stages {
+        stage('Invoke_pipeline-Kafka_topic_create_combined') {
+                    steps {
+                        
+                            script {
+                               checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'svcsscns_github_token', url: 'https://github.wsgc.com/syerra1/supply-chain-ci.git']]])
+                             dir('ansible'){
+                            echo "Here trigger job: Kafka_topic_create_combined. Triggered at time:"
+                            echo "$kafka_instances ,$Envr,$kafka_environment,$Region,$Topic_Name,$Producer,$Consumer,$Group_ID"
+                            sh(script: "date -u")
+                            if ("$kafka_instances" =='LMS') then
+                           { 
+                              if ("$Envr" =='PRD') 
+                              //sh "export ANSIBLE_FORCE_COLOR=true;ansible-playbook Kafka_topic_create_combined_multiple_gropus.yml --tags Authorization -i hosts --vault-password-file ~/vault_key.txt -e Broker_Type=Authorization -e env=${params.Envr} -e kafka_instance=${params.kafka_instances} -e Region=${params.Region} -e topic_Name=${params.Topic_Name} -e Parition=${params.Parition} -e Retention=${params.Retention} -e Producer=${params.Producer} -e Consumer=${params.Consumer} -e Group_ID=${Group_ID}"
+                                { echo "PRD LMS" }
+                             
+                              else
+                             {
+                               sh "export ANSIBLE_FORCE_COLOR=true;ansible-playbook Kafka_topic_create_combined_multiple_gropus.yml --tags Authorization -i hosts --vault-password-file ~/vault_key.txt -e Broker_Type=Authorization -e env=${params.Envr} -e kafka_instance=${params.kafka_instances} -e Region=${params.Region} -e topic_Name=${params.Topic_Name} -e Parition=${params.Parition} -e Retention=${params.Retention} -e Producer=${params.Producer} -e Consumer=${params.Consumer} -e Group_ID=${Group_ID}"
+                              }//{ echo "NON PRD  LMS"  }
+                           }  
+                           else 
+                             {
+                              if ("$Envr" =='PRD') 
+                              {sh "export ANSIBLE_FORCE_COLOR=true;ansible-playbook Kafka_topic_create_combined_prd.yml --tags Plain -i hosts --vault-password-file ~/vault_key.txt -e Broker_Type=Plain -e env=${params.Envr} -e kafka_instance=${params.kafka_instances} -e Region=${params.Region} -e topic_Name=${params.Topic_Name} -e Parition=${params.Parition} -e Retention=${params.Retention} -e Producer=${params.Producer} -e Consumer=${params.Consumer} -e Group_ID=${Group_ID}"
+                              //{ echo "PRD  CLE "
+                                }
+                              else
+                              {sh "export ANSIBLE_FORCE_COLOR=true;ansible-playbook Kafka_topic_create_combined.yml --tags Plain -i hosts --vault-password-file ~/vault_key.txt -e Broker_Type=Plain -e env=${params.Envr} -e kafka_instance=${params.kafka_instances} -e Region=${params.Region} -e topic_Name=${params.Topic_Name} -e Parition=${params.Parition} -e Retention=${params.Retention} -e Producer=${params.Producer} -e Consumer=${params.Consumer} -e Group_ID=${Group_ID}"
+                              //{ echo "NONPRD  CLE "
+                              }
+                             }
+                      }
+                }
+    }
+    }
+}
+}
